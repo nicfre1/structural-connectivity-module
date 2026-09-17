@@ -1,0 +1,4 @@
+*.png -diff
+*.csv linguist-generated
+*.tsv linguist-generated
+results/** linguist-generated

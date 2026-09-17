@@ -24,6 +24,9 @@ pipeline still completes and writes a matplotlib fallback figure.
 | `plot_group_gradients_brain.py` | Standalone cortical-surface render of the 4 group gradients (aparc_fsa5). Run with a VTK-capable interpreter. |
 | `generate_example_thickness.py` | Write synthetic DrawEM32 thickness files so the chain can be run without real data. |
 | `mapping_example.json` | Example mapping matching the synthetic files (demo only, not anatomically valid). |
+| `compute_covariance_gradients_vertex.py` | Vertex-wise counterpart of `compute_covariance_gradients.py`: same equations, one row per cortical vertex of a common surface grid instead of one row per DK region. |
+| `plot_group_gradients_brain_vertex.py` | Cortical-surface render of the vertex-wise group gradients, on a caller-supplied group midthickness mesh. Run with a VTK-capable interpreter. |
+| `generate_example_thickness_vertex.py` | Write a synthetic cohort vertex-thickness file so the vertex-wise chain can be run without real surface data. |
 | `others/` | Detailed notes for each script (kept out of the code headers). |
 
 The method (cohort z-score, `np.corrcoef` group matrix, `GradientMaps` +
@@ -103,3 +106,26 @@ python compute_covariance_gradients.py \
     example_out/thickness_68_rh_stats.tsv \
     --out_dir example_out/results
 ```
+
+## Vertex-wise branch
+
+For a vertex-wise analysis (a common surface grid instead of the 68 DK
+regions), `compute_covariance_gradients_vertex.py` runs the exact same
+covariance/gradient equations one vertex at a time. It starts from an
+already-built cohort file (`thickness`, `mask`, `hemi`, `subject_ids`,
+`n_per_hemi` — see
+[`others/compute_covariance_gradients_vertex.md`](others/compute_covariance_gradients_vertex.md)):
+going from native cortical surfaces to that common grid needs real
+per-subject anatomy and Connectome Workbench, and is out of scope here.
+
+```bash
+python generate_example_thickness_vertex.py --out_dir example_data_vertex --n_subjects 25
+python compute_covariance_gradients_vertex.py \
+    example_data_vertex/cohort_thickness_vertex_dens-demo.npz \
+    --out_dir example_data_vertex/results
+```
+
+The cortical-surface render (`plot_group_gradients_brain_vertex.py`) needs a
+group midthickness mesh (`--left_surface`/`--right_surface`) supplied by the
+caller; there is no bundled generic vertex mesh to fall back on, so it is
+skipped unless those are given.
