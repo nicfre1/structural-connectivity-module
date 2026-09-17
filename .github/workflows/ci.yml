@@ -1,0 +1,52 @@
+name: CI
+
+on:
+  push:
+    branches: [main, dev]
+  pull_request:
+
+jobs:
+  smoke-test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt pytest
+
+      - name: Unit tests
+        run: pytest -q
+
+      - name: Run top-level pipeline on committed data
+        run: |
+          python compute_covariance.py \
+            data/BrainnetomeChild_thickness_lh_stats.tsv \
+            data/BrainnetomeChild_thickness_rh_stats.tsv \
+            --out_dir /tmp/ci_results
+
+      - name: Run extra-functions pipeline on synthetic data
+        working-directory: extra-functions
+        run: |
+          python generate_example_thickness.py --out_dir /tmp/ci_example --n_subjects 20 --seed 0
+          python drawem32_to_mcribs.py \
+            /tmp/ci_example/drawem32_thickness_lh_stats.tsv \
+            /tmp/ci_example/drawem32_thickness_rh_stats.tsv \
+            --mapping mapping_example.json --out_dir /tmp/ci_mcribs --strict
+          python compute_covariance_gradients.py \
+            /tmp/ci_mcribs/thickness_68_lh_stats.tsv \
+            /tmp/ci_mcribs/thickness_68_rh_stats.tsv \
+            --out_dir /tmp/ci_out --no_brain_plot
+
+      - name: Run extra-functions vertex-wise pipeline on synthetic data
+        working-directory: extra-functions
+        run: |
+          python generate_example_thickness_vertex.py --out_dir /tmp/ci_example_vertex --n_subjects 20 --seed 0
+          python compute_covariance_gradients_vertex.py \
+            /tmp/ci_example_vertex/cohort_thickness_vertex_dens-demo.npz \
+            --out_dir /tmp/ci_out_vertex --no_brain_plot
