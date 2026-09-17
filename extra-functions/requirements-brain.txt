@@ -1,9 +1,18 @@
-# Optional extra dependencies, only needed for the cortical-surface render
-# produced by plot_group_gradients_brain.py (and, transitively, the
-# group_gradients_brain.png step of compute_covariance_gradients.py).
+# Optional extra dependencies.
 #
-# These pull in VTK, which is sensitive to the Python version. A dedicated
-# environment (Python 3.10, VTK 9.3.x) is recommended, e.g.:
+# nibabel alone (no VTK) is also needed by the native-surface resampling
+# chain: vertex_resample_utils.py, build_vertex_grid_assets.py,
+# resample_subject_thickness_vertex.py, build_cohort_thickness_vertex.py,
+# generate_example_native_surfaces.py. That chain additionally needs
+# Connectome Workbench (`wb_command`, an external tool -- not on PyPI, not
+# listed here); see others/vertex_resample_utils.md.
+#
+# enigmatoolbox + vtk are only needed for the cortical-surface render
+# (plot_group_gradients_brain.py, plot_group_gradients_brain_vertex.py, and
+# transitively the group_gradients_brain.png step of
+# compute_covariance_gradients.py / compute_covariance_gradients_vertex.py).
+# VTK is sensitive to the Python version; a dedicated environment
+# (Python 3.10, VTK 9.3.x) is recommended, e.g.:
 #   conda create -n gradients-brain python=3.10
 #   conda activate gradients-brain
 #   pip install -r requirements-brain.txt
