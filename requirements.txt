@@ -4,3 +4,4 @@ python-dateutil==2.9.0.post0
 six==1.17.0
 scipy==1.17.1
 brainspace==0.2.1
+matplotlib>=3.8
