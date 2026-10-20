@@ -86,6 +86,34 @@ Written to `--out_dir`:
   gradients and eigenvalues, plus one figure per subject (`group/`,
   `individual_matrices/`, `individual_gradients/`)
 
+## Extended pipeline: `extra-functions/`
+
+The folder [`extra-functions/`](extra-functions/) contains a more complete
+pipeline for cortical thickness covariance and gradients. It uses a different
+method from `compute_covariance.py`: thickness is z-scored per region across
+the cohort, and the group matrix is the correlation (`np.corrcoef`) of those
+z-scores, with left and right hemispheres kept separate. It also adds:
+
+* **Brain renders.** Group gradients painted on a cortical surface. The
+  Desikan-Killiany render and
+  `plot_group_gradients_brain_atlas.py`, which does the same for **any atlas**
+  (you provide your own surface and atlas annotation, `.annot` or GIFTI
+  labels). Rendering needs the optional VTK packages listed in
+  `extra-functions/requirements-brain.txt`.
+* **DrawEM32 to MCRIBS conversion.** Moves DrawEM32 thickness to the MCRIBS
+  Desikan-Killiany parcellation (68 regions), driven by a mapping file that
+  you fill in for your own data.
+* **Vertex-wise analysis.** The same equations applied per cortical vertex,
+  including the resampling from native surfaces to a common low-resolution
+  grid (needs [Connectome Workbench](https://www.humanconnectome.org/software/connectome-workbench)
+  and your own subject surfaces).
+* **Synthetic examples and tests.** Every step can be tried end to end on
+  generated data, so nothing requires real subject data (the native-surface
+  resampling additionally needs Connectome Workbench installed).
+
+See [`extra-functions/README.md`](extra-functions/README.md) for installation
+details and step-by-step usage.
+
 ## Citation
 
 If you use this software, please cite it using the metadata in
