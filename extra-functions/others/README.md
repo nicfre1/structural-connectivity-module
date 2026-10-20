@@ -18,6 +18,7 @@ keep a short header (description + example), same style as the top-level
 | `resample_subject_thickness_vertex.py` | [resample_subject_thickness_vertex.md](resample_subject_thickness_vertex.md) |
 | `build_cohort_thickness_vertex.py` | [build_cohort_thickness_vertex.md](build_cohort_thickness_vertex.md) |
 | `generate_example_native_surfaces.py` | [generate_example_native_surfaces.md](generate_example_native_surfaces.md) |
+| `plot_group_gradients_brain_atlas.py` | [plot_group_gradients_brain_atlas.md](plot_group_gradients_brain_atlas.md) |
 
 ## Method summary
 
