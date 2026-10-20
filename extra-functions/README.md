@@ -32,6 +32,7 @@ pipeline still completes and writes a matplotlib fallback figure.
 | `resample_subject_thickness_vertex.py` | Resample one subject's native thickness onto the low-resolution grid. Needs `wb_command` + your own subject derivatives. |
 | `build_cohort_thickness_vertex.py` | Loop the above over a cohort, build the group midthickness surface, smooth, define the group mask, write the cohort file `compute_covariance_gradients_vertex.py` consumes. |
 | `generate_example_native_surfaces.py` | Write a fully synthetic template + subject derivatives tree so the whole resampling chain can be smoke-tested with `wb_command` and no real anatomy. |
+| `plot_group_gradients_brain_atlas.py` | Cortical-surface render of region-wise gradients for ANY atlas: you provide the surface and the atlas annotation (`.annot` / GIFTI labels). Run with a VTK-capable interpreter. |
 | `others/` | Detailed notes for each script (kept out of the code headers). |
 
 The method (cohort z-score, `np.corrcoef` group matrix, `GradientMaps` +

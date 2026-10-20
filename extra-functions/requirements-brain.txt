@@ -8,7 +8,8 @@
 # listed here); see others/vertex_resample_utils.md.
 #
 # enigmatoolbox + vtk are only needed for the cortical-surface render
-# (plot_group_gradients_brain.py, plot_group_gradients_brain_vertex.py, and
+# (plot_group_gradients_brain.py, plot_group_gradients_brain_vertex.py,
+# plot_group_gradients_brain_atlas.py, and
 # transitively the group_gradients_brain.png step of
 # compute_covariance_gradients.py / compute_covariance_gradients_vertex.py).
 # VTK is sensitive to the Python version; a dedicated environment
