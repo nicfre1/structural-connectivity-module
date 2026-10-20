@@ -16,7 +16,7 @@ On top of the single-subject step, this also:
      space (each subject's native midthickness resampled onto the 32k mesh,
      then averaged, then downsampled to the ~N k grid). This is the
      geometric support for smoothing and for cortical-surface renders
-     (plot_group_gradients_brain_vertex.py).
+     (plot_group_gradients_brain.py vertex).
   2. Smooths each subject's thickness on that group surface, Gaussian
      kernel, --fwhm mm (default 10, standard in morphometry; needed at the
      vertex scale to control single-vertex noise).

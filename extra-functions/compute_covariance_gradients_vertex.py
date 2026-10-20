@@ -9,7 +9,7 @@ instead of the 68 Desikan-Killiany regions of compute_covariance_gradients.py).
 Same equations as compute_covariance_gradients.py, one row per cortical
 vertex of a common surface grid instead of one row per region. See
 others/compute_covariance_gradients_vertex.md for details, and
-generate_example_thickness_vertex.py to build a synthetic cohort .npz.
+generate_example_data.py vertex to build a synthetic cohort .npz.
 
 The cohort .npz must contain: thickness (n_subjects, n_valid_vertices),
 mask (2*n_per_hemi,) bool, hemi (2*n_per_hemi,) 'L'/'R', subject_ids,
@@ -51,7 +51,7 @@ def _build_arg_parser():
     p.add_argument(
         "cohort_npz",
         type=Path,
-        help="Cohort vertex-thickness .npz (see generate_example_thickness_vertex.py).",
+        help="Cohort vertex-thickness .npz (see generate_example_data.py vertex).",
     )
     p.add_argument(
         "--out_dir",
@@ -148,10 +148,10 @@ def save_individualized_covariance_heatmap(matrix, subject_id, n_subjects, n_ver
 
 
 def render_group_gradients_brain_vertex(gradients_npz, left_surface, right_surface, out_png):
-    script = Path(__file__).with_name("plot_group_gradients_brain_vertex.py")
+    script = Path(__file__).with_name("plot_group_gradients_brain.py")
     try:
         completed = subprocess.run(
-            [sys.executable, str(script),
+            [sys.executable, str(script), "vertex",
              "--gradients-npz", str(gradients_npz),
              "--left-surface", str(left_surface),
              "--right-surface", str(right_surface),

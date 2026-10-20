@@ -6,7 +6,7 @@ Build the low-resolution icosphere grid assets used by the vertex-wise
 pipeline, from a dHCP symmetric surface template.
 
 See others/build_vertex_grid_assets.md for details, and
-generate_example_native_surfaces.py to exercise this without a real
+generate_example_data.py native to exercise this without a real
 template (a tiny synthetic one, for a smoke test of the whole chain).
 
 Needs Connectome Workbench (`wb_command`) and a local copy of the dHCP

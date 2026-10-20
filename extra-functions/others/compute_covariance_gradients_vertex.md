@@ -52,7 +52,7 @@ A cohort `.npz` with:
 | `n_per_hemi` | scalar | vertices per hemisphere on the full grid |
 
 This is the schema written by the real vertex pipeline's cohort-assembly
-step; `generate_example_thickness_vertex.py` writes a synthetic one with the
+step; `generate_example_data.py vertex` writes a synthetic one with the
 same keys.
 
 ## Options
@@ -85,12 +85,12 @@ individual_gradients/<subject>_gradients_aligned_valid_vertices.csv
 No `.csv` is written for the full grid (it would carry a `NaN` row per
 excluded vertex); use the `.npz` (`gradients`/`gradients_rescaled` + `mask`
 + `n_per_hemi`) whenever the full-grid, surface-alignable layout is needed,
-e.g. for `plot_group_gradients_brain_vertex.py`.
+e.g. for `plot_group_gradients_brain.py vertex`.
 
 ## Example
 
 ```bash
-python generate_example_thickness_vertex.py --out_dir example_data_vertex --n_subjects 25
+python generate_example_data.py vertex --out_dir example_data_vertex --n_subjects 25
 python compute_covariance_gradients_vertex.py \
     example_data_vertex/cohort_thickness_vertex_dens-demo.npz \
     --out_dir example_data_vertex/results

@@ -3,7 +3,7 @@
 Single entry point for the `extra-functions/` scripts. Each step stays its own
 script and still runs on its own; `gradients.py` only picks the right one from
 the first word and hands it the remaining options, so you do not need to
-remember thirteen file names.
+remember the script names.
 
 ```bash
 python gradients.py --help                # list the commands
@@ -17,18 +17,18 @@ python gradients.py <command> [options]
 | --- | --- | --- |
 | `convert` | `drawem32_to_mcribs.py` | |
 | `compute` | `compute_covariance_gradients.py` | |
-| `plot` | `plot_group_gradients_brain.py` | VTK |
-| `plot-atlas` | `plot_group_gradients_brain_atlas.py` | VTK |
+| `plot` | `plot_group_gradients_brain.py dk` | VTK |
+| `plot-atlas` | `plot_group_gradients_brain.py atlas` | VTK |
 | `compute-vertex` | `compute_covariance_gradients_vertex.py` | |
-| `plot-vertex` | `plot_group_gradients_brain_vertex.py` | VTK |
+| `plot-vertex` | `plot_group_gradients_brain.py vertex` | VTK |
 | `build-grid` | `build_vertex_grid_assets.py` | Connectome Workbench |
 | `resample-subject` | `resample_subject_thickness_vertex.py` | Connectome Workbench |
 | `build-cohort` | `build_cohort_thickness_vertex.py` | Connectome Workbench |
-| `example` | `generate_example_thickness.py` | |
-| `example-vertex` | `generate_example_thickness_vertex.py` | |
-| `example-native` | `generate_example_native_surfaces.py` | Connectome Workbench |
+| `example` | `generate_example_data.py drawem32` | |
+| `example-vertex` | `generate_example_data.py vertex` | |
+| `example-native` | `generate_example_data.py native` | Connectome Workbench |
 
-Everything after the command is passed to the script unchanged, including
+Several commands share one script (the three `plot*` commands, the three `example*` commands): the command only picks its mode. Everything after the command is passed to the script unchanged, including
 `--help`, so the options of each step are documented in its own page (see
 [README.md](README.md)).
 

@@ -18,22 +18,18 @@ pipeline still completes and writes a matplotlib fallback figure.
 
 | File | Purpose |
 | --- | --- |
+| `gradients.py` | Single entry point: `python gradients.py <command> ...` runs any step below (`--help` lists the commands). The scripts still run on their own. |
 | `drawem32_to_mcribs.py` | Convert DrawEM32 thickness TSVs to the MCRIBS 68-region convention, driven by an external mapping file. |
 | `mapping_drawem32_to_mcribs.json` | Mapping **template**: the 34 Desikan-Killiany target regions with empty source lists to fill in. |
-| `compute_covariance_gradients.py` | Individualized covariance matrices, group covariance matrix, group + Procrustes-aligned individual gradients, figures. Data-free port of the validated reference scripts. |
-| `plot_group_gradients_brain.py` | Standalone cortical-surface render of the 4 group gradients (aparc_fsa5). Run with a VTK-capable interpreter. |
-| `generate_example_thickness.py` | Write synthetic DrawEM32 thickness files so the chain can be run without real data. |
 | `mapping_example.json` | Example mapping matching the synthetic files (demo only, not anatomically valid). |
-| `compute_covariance_gradients_vertex.py` | Vertex-wise counterpart of `compute_covariance_gradients.py`: same equations, one row per cortical vertex of a common surface grid instead of one row per DK region. |
-| `plot_group_gradients_brain_vertex.py` | Cortical-surface render of the vertex-wise group gradients, on a caller-supplied group midthickness mesh. Run with a VTK-capable interpreter. |
-| `generate_example_thickness_vertex.py` | Write a synthetic cohort vertex-thickness file so the vertex-wise chain can be run without real surface data. |
+| `compute_covariance_gradients.py` | Individualized covariance matrices, group covariance matrix, group + Procrustes-aligned individual gradients, figures. Data-free port of the validated reference scripts. |
+| `compute_covariance_gradients_vertex.py` | Vertex-wise counterpart: same equations, one row per cortical vertex of a common surface grid instead of one row per DK region. |
+| `plot_group_gradients_brain.py` | Cortical-surface render of the group gradients, three modes: `dk` (Desikan-Killiany on fsaverage5, the default), `atlas` (ANY atlas: you provide the surface and the annotation) and `vertex` (vertex-wise, on your group surface). Run with a VTK-capable interpreter. |
 | `vertex_resample_utils.py` | Shared geometry helpers: native surface -> common template mesh -> low-resolution grid, via Connectome Workbench. |
 | `build_vertex_grid_assets.py` | Build the low-resolution icosphere grid from a dHCP symmetric template. Needs `wb_command` + your own copy of the template. |
 | `resample_subject_thickness_vertex.py` | Resample one subject's native thickness onto the low-resolution grid. Needs `wb_command` + your own subject derivatives. |
 | `build_cohort_thickness_vertex.py` | Loop the above over a cohort, build the group midthickness surface, smooth, define the group mask, write the cohort file `compute_covariance_gradients_vertex.py` consumes. |
-| `generate_example_native_surfaces.py` | Write a fully synthetic template + subject derivatives tree so the whole resampling chain can be smoke-tested with `wb_command` and no real anatomy. |
-| `plot_group_gradients_brain_atlas.py` | Cortical-surface render of region-wise gradients for ANY atlas: you provide the surface and the atlas annotation (`.annot` / GIFTI labels). Run with a VTK-capable interpreter. |
-| `gradients.py` | Single entry point: `python gradients.py <command> ...` runs any of the scripts above (`--help` lists the commands). The scripts still run on their own. |
+| `generate_example_data.py` | Write synthetic example data so each chain can be run without real data, three kinds: `drawem32` (DrawEM32 thickness files), `vertex` (vertex-wise cohort file), `native` (template + subject surfaces for the resampling chain; needs `wb_command`). |
 | `others/` | Detailed notes for each script (kept out of the code headers). |
 
 The method (cohort z-score, `np.corrcoef` group matrix, `GradientMaps` +
@@ -118,7 +114,7 @@ render with a dedicated interpreter:
 ## Run the full chain on synthetic data
 
 ```bash
-python generate_example_thickness.py --out_dir example_data --n_subjects 30
+python generate_example_data.py drawem32 --out_dir example_data --n_subjects 30
 python drawem32_to_mcribs.py \
     example_data/drawem32_thickness_lh_stats.tsv \
     example_data/drawem32_thickness_rh_stats.tsv \
@@ -139,13 +135,13 @@ already-built cohort file (`thickness`, `mask`, `hemi`, `subject_ids`,
 [`others/compute_covariance_gradients_vertex.md`](others/compute_covariance_gradients_vertex.md)):
 
 ```bash
-python generate_example_thickness_vertex.py --out_dir example_data_vertex --n_subjects 25
+python generate_example_data.py vertex --out_dir example_data_vertex --n_subjects 25
 python compute_covariance_gradients_vertex.py \
     example_data_vertex/cohort_thickness_vertex_dens-demo.npz \
     --out_dir example_data_vertex/results
 ```
 
-The cortical-surface render (`plot_group_gradients_brain_vertex.py`) needs a
+The cortical-surface render (`plot_group_gradients_brain.py vertex`) needs a
 group midthickness mesh (`--left_surface`/`--right_surface`) supplied by the
 caller; there is no bundled generic vertex mesh to fall back on, so it is
 skipped unless those are given.
@@ -180,11 +176,11 @@ python compute_covariance_gradients_vertex.py \
 ```
 
 Without either the template or real subject data,
-`generate_example_native_surfaces.py` fabricates a stand-in for both so the
+`generate_example_data.py native` fabricates a stand-in for both so the
 whole chain can still be run and smoke-tested end to end:
 
 ```bash
-python generate_example_native_surfaces.py --out_dir example_native --wb_command "$WB" --n_subjects 3
+python generate_example_data.py native --out_dir example_native --wb_command "$WB" --n_subjects 3
 python build_vertex_grid_assets.py \
     --template_dir example_native/template --wb_command "$WB" \
     --output_dir example_native/assets --n_vertices 642
