@@ -111,8 +111,9 @@ z-scores, with left and right hemispheres kept separate. It also adds:
   generated data, so nothing requires real subject data (the native-surface
   resampling additionally needs Connectome Workbench installed).
 
-See [`extra-functions/README.md`](extra-functions/README.md) for installation
-details and step-by-step usage.
+Every step runs from one command (`python extra-functions/gradients.py --help`
+lists them). See [`extra-functions/README.md`](extra-functions/README.md) for
+installation details and step-by-step usage.
 
 ## Citation
 

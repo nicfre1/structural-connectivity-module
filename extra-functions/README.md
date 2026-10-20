@@ -33,11 +33,27 @@ pipeline still completes and writes a matplotlib fallback figure.
 | `build_cohort_thickness_vertex.py` | Loop the above over a cohort, build the group midthickness surface, smooth, define the group mask, write the cohort file `compute_covariance_gradients_vertex.py` consumes. |
 | `generate_example_native_surfaces.py` | Write a fully synthetic template + subject derivatives tree so the whole resampling chain can be smoke-tested with `wb_command` and no real anatomy. |
 | `plot_group_gradients_brain_atlas.py` | Cortical-surface render of region-wise gradients for ANY atlas: you provide the surface and the atlas annotation (`.annot` / GIFTI labels). Run with a VTK-capable interpreter. |
+| `gradients.py` | Single entry point: `python gradients.py <command> ...` runs any of the scripts above (`--help` lists the commands). The scripts still run on their own. |
 | `others/` | Detailed notes for each script (kept out of the code headers). |
 
 The method (cohort z-score, `np.corrcoef` group matrix, `GradientMaps` +
 Procrustes, rescale to `[-1, 1]`) is summarised in [`others/README.md`](others/README.md)
 and unchanged from the validated reference scripts.
+
+## One command for everything
+
+`gradients.py` runs any step from one place, so you do not need the script
+names:
+
+```bash
+python gradients.py --help          # list the commands
+python gradients.py compute --help  # options of one command
+python gradients.py plot --python /path/to/vtk-python --gradient-csv g.csv --output brain.png
+```
+
+Commands and their requirements are in [`others/gradients.md`](others/gradients.md).
+The sections below call the scripts directly; `python gradients.py convert ...`
+is the same as `python drawem32_to_mcribs.py ...`.
 
 ## 1. Provide the DrawEM32 -> MCRIBS correspondence
 

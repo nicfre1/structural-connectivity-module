@@ -43,6 +43,20 @@ jobs:
             /tmp/ci_mcribs/thickness_68_rh_stats.tsv \
             --out_dir /tmp/ci_out --no_brain_plot
 
+      - name: Run extra-functions through the single entry point
+        working-directory: extra-functions
+        run: |
+          python gradients.py --help
+          python gradients.py example --out_dir /tmp/ci_ep_example --n_subjects 20 --seed 0
+          python gradients.py convert \
+            /tmp/ci_ep_example/drawem32_thickness_lh_stats.tsv \
+            /tmp/ci_ep_example/drawem32_thickness_rh_stats.tsv \
+            --mapping mapping_example.json --out_dir /tmp/ci_ep_mcribs --strict
+          python gradients.py compute \
+            /tmp/ci_ep_mcribs/thickness_68_lh_stats.tsv \
+            /tmp/ci_ep_mcribs/thickness_68_rh_stats.tsv \
+            --out_dir /tmp/ci_ep_out --no_brain_plot
+
       - name: Run extra-functions vertex-wise pipeline on synthetic data
         working-directory: extra-functions
         run: |
