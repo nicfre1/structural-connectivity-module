@@ -9,7 +9,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "extra-functions"))
 import compute_covariance_gradients as ccg  # noqa: E402
 import compute_covariance_gradients_vertex as ccgv  # noqa: E402
 import drawem32_to_mcribs as d2m  # noqa: E402
-import plot_group_gradients_brain_atlas as atlas  # noqa: E402
+import plot_group_gradients_brain as atlas  # noqa: E402
 
 
 def test_region_basename_strips_prefix_and_suffix():
@@ -73,7 +73,7 @@ def test_load_cohort_roundtrips_generated_example(tmp_path):
 
     script_dir = Path(__file__).resolve().parents[1] / "extra-functions"
     subprocess.run(
-        [sys.executable, str(script_dir / "generate_example_thickness_vertex.py"),
+        [sys.executable, str(script_dir / "generate_example_data.py"), "vertex",
          "--out_dir", str(tmp_path), "--n_subjects", "6", "--n_per_hemi", "20"],
         check=True, capture_output=True,
     )

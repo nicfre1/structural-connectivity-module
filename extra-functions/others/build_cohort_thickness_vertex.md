@@ -14,7 +14,7 @@ Data-free port of `etape2_thickness_vertex_cohorte.py`.
    each subject's native midthickness is resampled onto the 32k mesh, then
    averaged, then downsampled to the low-resolution grid. This is the
    geometric support for smoothing and for cortical-surface renders
-   (`plot_group_gradients_brain_vertex.py`).
+   (`plot_group_gradients_brain.py vertex`).
 2. **Surface smoothing** of each subject's thickness on that group surface,
    Gaussian kernel, `--fwhm` mm (default 10, standard in morphometry;
    needed at the vertex scale to control single-vertex noise -- there is no
@@ -29,7 +29,7 @@ Data-free port of `etape2_thickness_vertex_cohorte.py`.
 Connectome Workbench (`wb_command`) and subject session directories in the
 standard `anat/` + `xfm/` layout (see
 `others/resample_subject_thickness_vertex.md`). See
-`generate_example_native_surfaces.py` for a synthetic stand-in that
+`generate_example_data.py native` for a synthetic stand-in that
 exercises this whole script without real data.
 
 ## Subject selection

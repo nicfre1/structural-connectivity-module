@@ -1,7 +1,7 @@
 """
 Native-surface resampling chain (vertex_resample_utils.py and the scripts
 built on it: build_vertex_grid_assets.py, resample_subject_thickness_vertex.py,
-build_cohort_thickness_vertex.py, generate_example_native_surfaces.py).
+build_cohort_thickness_vertex.py, generate_example_data.py native).
 
 Kept in its own module (not test_extra_functions.py) because it needs
 nibabel -- not in ../requirements.txt, only in
@@ -52,7 +52,7 @@ def test_find_one_raises_on_no_match_and_on_multiple_matches(tmp_path):
 @requires_workbench
 def test_native_surface_resampling_chain_runs_end_to_end(tmp_path):
     """Full smoke test with real wb_command and fully synthetic data:
-    generate_example_native_surfaces -> build_vertex_grid_assets ->
+    generate_example_data native -> build_vertex_grid_assets ->
     build_cohort_thickness_vertex -> compute_covariance_gradients_vertex.
     """
     script_dir = Path(__file__).resolve().parents[1] / "extra-functions"
@@ -70,7 +70,7 @@ def test_native_surface_resampling_chain_runs_end_to_end(tmp_path):
     results_dir = tmp_path / "results"
 
     run_script(
-        "generate_example_native_surfaces.py",
+        "generate_example_data.py", "native",
         "--out_dir", native_dir, "--wb_command", wb_command,
         "--n_subjects", 2, "--n_native", 42, "--seed", 0,
     )

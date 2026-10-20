@@ -25,65 +25,67 @@ from pathlib import Path
 
 HERE = Path(__file__).resolve().parent
 
-# command -> (script, one-line description, extra requirement shown in --help)
+# command -> (script, preset words put before your options, description,
+# extra requirement shown in --help). Several commands can share one script
+# (plot*, example*): the preset picks its mode.
 COMMANDS = {
     "convert": (
-        "drawem32_to_mcribs.py",
+        "drawem32_to_mcribs.py", [],
         "DrawEM32 thickness TSVs -> MCRIBS Desikan-Killiany (68 regions)",
         "",
     ),
     "compute": (
-        "compute_covariance_gradients.py",
+        "compute_covariance_gradients.py", [],
         "covariance matrices + group/individual gradients (regions)",
         "",
     ),
     "plot": (
-        "plot_group_gradients_brain.py",
+        "plot_group_gradients_brain.py", ["dk"],
         "brain render of gradients, Desikan-Killiany (fsaverage5)",
         "VTK",
     ),
     "plot-atlas": (
-        "plot_group_gradients_brain_atlas.py",
+        "plot_group_gradients_brain.py", ["atlas"],
         "brain render for ANY atlas (your surface + annotation)",
         "VTK",
     ),
     "compute-vertex": (
-        "compute_covariance_gradients_vertex.py",
+        "compute_covariance_gradients_vertex.py", [],
         "covariance matrices + gradients, one row per cortical vertex",
         "",
     ),
     "plot-vertex": (
-        "plot_group_gradients_brain_vertex.py",
+        "plot_group_gradients_brain.py", ["vertex"],
         "brain render of vertex-wise gradients on your group surface",
         "VTK",
     ),
     "build-grid": (
-        "build_vertex_grid_assets.py",
+        "build_vertex_grid_assets.py", [],
         "low-resolution icosphere grid from a dHCP symmetric template",
         "Workbench",
     ),
     "resample-subject": (
-        "resample_subject_thickness_vertex.py",
+        "resample_subject_thickness_vertex.py", [],
         "native surface thickness of ONE subject -> common grid",
         "Workbench",
     ),
     "build-cohort": (
-        "build_cohort_thickness_vertex.py",
+        "build_cohort_thickness_vertex.py", [],
         "whole cohort -> the cohort file compute-vertex reads",
         "Workbench",
     ),
     "example": (
-        "generate_example_thickness.py",
+        "generate_example_data.py", ["drawem32"],
         "synthetic DrawEM32 thickness files (no real data needed)",
         "",
     ),
     "example-vertex": (
-        "generate_example_thickness_vertex.py",
+        "generate_example_data.py", ["vertex"],
         "synthetic vertex-wise cohort file (no real data needed)",
         "",
     ),
     "example-native": (
-        "generate_example_native_surfaces.py",
+        "generate_example_data.py", ["native"],
         "synthetic template + subject surfaces for the resampling chain",
         "Workbench",
     ),
@@ -105,7 +107,7 @@ def help_text():
         "",
         "commands:",
     ]
-    for name, (_script, description, needs) in COMMANDS.items():
+    for name, (_script, _preset, description, needs) in COMMANDS.items():
         suffix = f"  [{needs}]" if needs else ""
         lines.append(f"  {name:<{width}}  {description}{suffix}")
     lines += [
@@ -146,8 +148,8 @@ def build_command(name, args):
             "Run `gradients.py --help` to list the commands."
         )
     python, rest = split_python_option(list(args))
-    script = HERE / COMMANDS[name][0]
-    return [python or sys.executable, str(script), *rest]
+    script, preset = COMMANDS[name][0], COMMANDS[name][1]
+    return [python or sys.executable, str(HERE / script), *preset, *rest]
 
 
 def main(argv=None):

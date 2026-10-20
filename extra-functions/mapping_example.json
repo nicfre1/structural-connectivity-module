@@ -1,5 +1,5 @@
 {
-    "_description": "EXAMPLE mapping only. It is consistent with the synthetic DrawEM32 files produced by generate_example_thickness.py and exists so the full DrawEM32 -> MCRIBS -> covariance/gradients chain can be run end to end without any real data. It is NOT an anatomically valid DrawEM32 -> Desikan-Killiany correspondence.",
+    "_description": "EXAMPLE mapping only. It is consistent with the synthetic DrawEM32 files produced by generate_example_data.py drawem32 and exists so the full DrawEM32 -> MCRIBS -> covariance/gradients chain can be run end to end without any real data. It is NOT an anatomically valid DrawEM32 -> Desikan-Killiany correspondence.",
     "aggregation": "mean",
     "regions": {
         "bankssts": ["dwm_01"],

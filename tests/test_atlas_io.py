@@ -1,5 +1,5 @@
 """
-Annotation/surface readers of plot_group_gradients_brain_atlas.py.
+Annotation/surface readers of plot_group_gradients_brain.py (atlas mode).
 
 Own module because it needs nibabel (not in ../requirements.txt, only in
 extra-functions/requirements-brain.txt): a module-level importorskip skips
@@ -17,7 +17,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "extra-functions"))
 
 nib = pytest.importorskip("nibabel")
 
-import plot_group_gradients_brain_atlas as atlas  # noqa: E402
+import plot_group_gradients_brain as atlas  # noqa: E402
 
 
 def test_load_annotation_reads_freesurfer_annot(tmp_path):

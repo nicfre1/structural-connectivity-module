@@ -96,7 +96,7 @@ z-scores, with left and right hemispheres kept separate. It also adds:
 
 * **Brain renders.** Group gradients painted on a cortical surface. The
   Desikan-Killiany render and
-  `plot_group_gradients_brain_atlas.py`, which does the same for **any atlas**
+  `plot_group_gradients_brain.py atlas`, which does the same for **any atlas**
   (you provide your own surface and atlas annotation, `.annot` or GIFTI
   labels). Rendering needs the optional VTK packages listed in
   `extra-functions/requirements-brain.txt`.

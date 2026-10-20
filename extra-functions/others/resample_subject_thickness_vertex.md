@@ -13,7 +13,7 @@ on the group-average surface, in `build_cohort_thickness_vertex.py`.
 Connectome Workbench (`wb_command`) and a subject session directory in the
 standard `anat/` + `xfm/` layout (native thickness, medial-wall mask,
 midthickness, and the native-to-common-space registration sphere). See
-`generate_example_native_surfaces.py` for a synthetic stand-in.
+`generate_example_data.py native` for a synthetic stand-in.
 
 ## Options
 
